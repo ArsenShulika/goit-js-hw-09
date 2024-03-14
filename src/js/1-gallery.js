@@ -66,44 +66,25 @@ const images = [
   },
 ];
 
-// достукався до списку з класом .gallery
-const container = document.querySelector('.gallery');
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-// в кінці цього списку вставляємо розмітку для нашої галереї на основі даних масиву images
-container.insertAdjacentHTML('beforeend', createMarkup(images));
+const setGallery = document.querySelector('ul.gallery');
 
-// створюю копію масиву і перебираємо для ств. розмітки для нашої галереї на основі даних масиву images, деструктуризуємо властивості обєктів масиву
-function createMarkup(images) {
-  return images
-    .map(
-      ({ preview, original, description }) => `<li class="gallery-item">
-  <a class="gallery-link" href="${original}">
-    <img
-      class="gallery-image"
-      src=${preview}
-      alt=${description}
-    />
-  </a>
-</li>`
-    )
-    .join('');
-}
+const createGallery = images
+  .map(
+    image => `<li class="gallery-item">
+      <a class="gallery-link" href="${image.original}">
+      <img class="gallery-image"; src= "${image.preview}"
 
-// навішуємо на список слухача подій
-container.addEventListener('click', handleModalOpen);
+      alt="${image.description}">
+      </a></li>`
+  )
+  .join('');
 
-// ств.callback для для слухача події
-function handleModalOpen(event) {
-  // перевіряємо куди виконався клік
-  if (event.currentTarget === event.target) return;
-  // відміняємо дефолтну дію бразузера
-  event.preventDefault();
+setGallery.insertAdjacentHTML('beforeend', createGallery);
 
-  // наша бібліотека;
-  // розмітка картинки, яка буде знайдена і показана за відповідним датасетом
-  const instance = basicLightbox.create(`
-     <img src="${event.target.dataset.source}" width="1112" height="640">
-`);
-
-  instance.show();
-}
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
