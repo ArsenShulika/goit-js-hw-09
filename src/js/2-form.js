@@ -5,6 +5,7 @@ const email = document.querySelector('[name="email"]');
 const message = document.querySelector('[name="message"]');
 formSubmit.addEventListener('input', hadleInput);
 formSubmit.addEventListener('submit', hadleSubmit);
+
 const value = localStorage.getItem('feedback-form-state') ?? {};
 
 try {
